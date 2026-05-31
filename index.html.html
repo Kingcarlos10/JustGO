@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JustGO</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JustGO">
+  
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='url(%23grad)'/><linearGradient id='grad' x1='0%27 y1='0%27 x2='100%27 y2='100%27><stop offset='0%25' stop-color='%23ff4757'/><stop offset='100%25' stop-color='%23ff6b81'/></linearGradient><path d='M130 50 L65 115 M130 50 L85 150 L65 115 L20 95 Z' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+  <style>
+    :root {
+      --bg-color: #121214;
+      --card-bg: #1a1a1e;
+      --accent-color: #ff4757;
+      --text-main: #ffffff;
+      --text-muted: #a0a0a5;
+      --border-color: #2f2f37;
+      --input-bg: #26262b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-container {
+      width: 100%;
+      max-width: 393px;
+      background: var(--bg-color);
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 20px;
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff4757, #ff6b81);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    h2 {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      padding: 10px 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent-color);
+    }
+
+    .btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      margin-top: 8px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .site-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .line-one {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 62%;
+    }
+
+    .place-title {
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge-zone {
+      background: rgba(255, 71, 87, 0.15);
+      color: var(--accent-color);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .action-btn {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .action-btn.delete { color: #ff4757; }
+    .action-btn.edit { color: #ffa502; }
+
+    .line-two {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 6px;
+      font-size: 13px;
+    }
+
+    .location-text {
+      color: var(--text-muted);
+      max-width: 45%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notes-text {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: right;
+      max-width: 52%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-container">
+    
+    <header>
+      <div class="app-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </div>
+      <h1>JustGO</h1>
+    </header>
+
+    <div class="panel">
+      <h2 id="form-title">Nuevo Destino</h2>
+      
+      <div class="form-group">
+        <label for="lugar">Lugar de interés (Máx 5 palabras)</label>
+        <input type="text" id="lugar" placeholder="Ej. Monasterio de Piedra" maxlength="60">
+      </div>
+
+      <div class="form-group">
+        <label for="zona">Zona</label>
+        <select id="zona">
+          <option value="Aragon">Aragón</option>
+          <option value="Espana">España</option>
+          <option value="Mundo">Mundo</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="ubicacion" id="label-ubicacion">Ubicación</label>
+        <input type="text" id="ubicacion" placeholder="Escribe pueblo o comarca" list="lista-provincias">
+      </div>
+
+      <div class="form-group">
+        <label for="notas">Notas</label>
+        <input type="text" id="notas" placeholder="Anotaciones rápidas...">
+      </div>
+
+      <button class="btn" id="btn-save">Guardar Destino</button>
+      <button class="btn btn-secondary" id="btn-cancel" style="display:none;">Cancelar Edición</button>
+    </div>
+
+    <div class="panel">
+      <h2>Filtrar Destinos</h2>
+      <div class="filter-grid">
+        <div>
+          <label for="filter-zona">Por Zona</label>
+          <select id="filter-zona">
+            <option value="TODOS">Todos</option>
+            <option value="Aragon">Aragón</option>
+            <option value="Espana">España</option>
+            <option value="Mundo">Mundo</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-ubicacion" id="label-filter-ubicacion">Por Ubicación</label>
+          <input type="text" id="filter-ubicacion" placeholder="Buscar general...">
+        </div>
+      </div>
+    </div>
+
+    <div class="item-list" id="destinos-lista"></div>
+
+  </div>
+
+  <datalist id="lista-provincias"></datalist>
+  <datalist id="lista-paises"></datalist>
+
+  <script>
+    const provinciasEspana = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Baleares","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","A Coruña","Cuenca","Girona","Granada","Guadalajara","Gipuzkoa","Huelva","Huesca","Jaén","León","Lleida","Lugo","Madrid","Málaga","Murcia","Navarra","Ourense","Palencia","Las Palmas","Pontevedra","La Rioja","Salamanca","Segovia","Sevilla","Soria","Tarragona","Santa Cruz de Tenerife","Teruel","Toledo","Valencia","Valladolid","Bizkaia","Zamora","Zaragoza"];
+    const paisesMundo = ["Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Macedonia del Norte", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República del Congo", "República Dominicana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudáfrica", "Sudán", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue"];
+
+    let destinos = [
+      { id: 1, lugar: "Plaza del Pilar", zona: "Aragon", ubicacion: "Zaragoza", notas: "Ir de tapas por El Tubo" },
+      { id: 2, lugar: "La Alhambra", zona: "Espana", ubicacion: "Granada", notas: "Reservar entradas antes" },
+      { id: 3, lugar: "Cruce de Shibuya", zona: "Mundo", ubicacion: "Japón", notas: "Verlo desde el Starbucks" },
+      { id: 4, lugar: "Castillo de Loarre", zona: "Aragon", ubicacion: "Huesca", notas: "Llevar calzado cómodo" }
+    ];
+
+    let editId = null;
+
+    window.onload = function() {
+      document.getElementById('lista-provincias').innerHTML = provinciasEspana.map(p => `<option value="${p}">`).join('');
+      document.getElementById('lista-paises').innerHTML = paisesMundo.map(p => `<option value="${p}">`).join('');
+
+      document.getElementById('zona').onchange = handleZonaChange;
+      document.getElementById('filter-zona').onchange = handleFilterZonaChange;
+      document.getElementById('filter-ubicacion').oninput = renderList;
+      document.getElementById('btn-save').onclick = saveTarget;
+      document.getElementById('btn-cancel').onclick = resetForm;
+
+      handleZonaChange();
+      handleFilterZonaChange();
+      renderList();
+    };
+
+    function handleZonaChange() {
+      const zona = document.getElementById('zona').value;
+      const input = document.getElementById('ubicacion');
+      const label = document.getElementById('label-ubicacion');
+
+      if (zona === 'Aragon') {
+        label.innerText = "Ubicación (Texto Libre)";
+        input.placeholder = "Escribe pueblo o comarca";
+        input.setAttribute('list', '');
+      } else if (zona === 'Espana') {
+        label.innerText = "Ubicación (Provincia)";
+        input.placeholder = "Escribe para filtrar provincias...";
+        input.setAttribute('list', 'lista-provincias');
+      } else if (zona === 'Mundo') {
+        label.innerText = "Ubicación (País)";
+        input.placeholder = "Escribe para filtrar países...";
+        input.setAttribute('list', 'lista-paises');
+      }
+    }
+
+    function handleFilterZonaChange() {
+      const filterZona = document.getElementById('filter-zona').value;
+      const input = document.getElementById('filter-ubicacion');
+      const label = document.getElementById('label-filter-ubicacion');
+      input.value = ""; 
+
+      if (filterZona === 'Aragon' || filterZona === 'TODOS') {
+        label.innerText = "Por Ubicación";
+        input.placeholder = "Buscar general...";
+        input.setAttribute('list', '');
+      } else if (filterZona === 'Espana') {
+        label.innerText = "Por Provincia";
+        input.placeholder = "Escribe provincia...";
+        input.setAttribute('list', 'lista-provincias');
+      } else if (filterZona === 'Mundo') {
+        label.innerText = "Por País";
+        input.placeholder = "Escribe país...";
+        input.setAttribute('list', 'lista-paises');
+      }
+      renderList();
+    }
+
+    function saveTarget() {
+      const lugarVal = document.getElementById('lugar').value.trim() || "-";
+      const zonaVal = document.getElementById('zona').value;
+      const ubiVal = document.getElementById('ubicacion').value.trim() || "-";
+      const notasVal = document.getElementById('notas').value.trim() || "-";
+
+      if (lugarVal !== "-") {
+        const palabras = lugarVal.split(/\s+/);
+        if (palabras.length > 5) {
+          alert("Error: El lugar no puede superar las 5 palabras.");
+          return;
+        }
+      }
+
+      if (editId !== null) {
+        destinos = destinos.map(function(d) {
+          return d.id === editId ? { id: editId, lugar: lugarVal, zona: zonaVal, ubicacion: ubiVal, notas: notasVal } : d;
+        });
+      } else {
+        destinos.push({
+          id: Date.now(),
+          lugar: lugarVal,
+          zona: zonaVal,
+          ubicacion: ubiVal,
+          notas: notasVal
+        });
+      }
+
+      resetForm();
+      renderList();
+    }
+
+    function resetForm() {
+      document.getElementById('lugar').value = "";
+      document.getElementById('zona').value = "Aragon";
+      document.getElementById('ubicacion').value = "";
+      document.getElementById('notas').value = "";
+      handleZonaChange();
+      editId = null;
+      document.getElementById('btn-save').innerText = "Guardar Destino";
+      document.getElementById('btn-cancel').style.display = "none";
+      document.getElementById('form-title').innerText = "Nuevo Destino";
+    }
+
+    window.editItem = function(id) {
+      const item = destinos.find(function(d) { return d.id === id; });
+      if (!item) return;
+
+      editId = id;
+      document.getElementById('form-title').innerText = "Editar Destino";
+      document.getElementById('lugar').value = item.lugar === "-" ? "" : item.lugar;
+      document.getElementById('zona').value = item.zona;
+      
+      handleZonaChange(); 
+      document.getElementById('ubicacion').value = item.ubicacion === "-" ? "" : item.ubicacion;
+      document.getElementById('notas').value = item.notas === "-" ? "" : item.notas;
+
+      document.getElementById('btn-save').innerText = "Actualizar Cambios";
+      document.getElementById('btn-cancel').style.display = "block";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.deleteItem = function(id) {
+      if (confirm("¿Seguro que quieres eliminar este destino?")) {
+        destinos = destinos.filter(function(d) { return d.id !== id; });
+        renderList();
+      }
+    };
+
+    window.moveItem = function(index, direction) {
+      if (direction === 'up' && index > 0) {
+        var temp = destinos[index];
+        destinos[index] = destinos[index - 1];
+        destinos[index - 1] = temp;
+      } else if (direction === 'down' && index < destinos.length - 1) {
+        var temp = destinos[index];
+        destinos[index] = destinos[index + 1];
+        destinos[index + 1] = temp;
+      }
+      renderList();
+    };
+
+    function renderList() {
+      const filterZona = document.getElementById('filter-zona').value;
+      const filterUbi = document.getElementById('filter-ubicacion').value.toLowerCase();
+      const listContainer = document.getElementById('destinos-lista');
+      
+      listContainer.innerHTML = "";
+
+      const filtered = destinos.filter(function(d) {
+        const matchesZona = (filterZona === "TODOS" || d.zona === filterZona);
+        const matchesUbi = d.ubicacion.toLowerCase().indexOf(filterUbi) !== -1;
+        return matchesZona && matchesUbi;
+      });
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; padding:20px;">No hay destinos que coincidan.</p>';
+        return;
+      }
+
+      filtered.forEach(function(item) {
+        const globalIndex = destinos.findIndex(function(d) { return d.id === item.id; });
+
+        const card = document.createElement('div');
+        card.className = 'site-card';
+        card.innerHTML = `
+          <div class="line-one">
+            <div class="info-primary">
+              <span class="place-title">${item.lugar}</span>
+              <span class="badge-zone">${item.zona}</span>
+            </div>
+            <div class="actions">
+              <button class="action-btn" onclick="window.moveItem(${globalIndex}, 'up')">▲</button>
+              <button class="action-btn" onclick="window.moveItem(${globalIndex}, 'down')">▼</button>
+              <button class="action-btn edit" onclick="window.editItem(${item.id})">✎</button>
+              <button class="action-btn delete" onclick="window.deleteItem(${item.id})">✕</button>
+            </div>
+          </div>
+          <div class="line-two">
+            <span class="location-text">📍 ${item.ubicacion}</span>
+            <span class="notes-text">${item.notas || '-'}</span>
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
